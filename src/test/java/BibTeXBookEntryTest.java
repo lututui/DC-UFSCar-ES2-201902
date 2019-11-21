@@ -11,6 +11,7 @@ import org.junit.Test;
 public class BibTeXBookEntryTest {
     static final private BibDatabase db = new BibDatabase();
     private BibEntry book1;
+    private BibEntry article1;
 
     @Before
     public void setUp() throws Exception {
@@ -23,11 +24,30 @@ public class BibTeXBookEntryTest {
         book1.setField(StandardField.ISBN, "9788580555332");
     }
 
+
+    @Before
+    public void setUp2() throws Exception {
+        article1 = new BibEntry(StandardEntryType.Article);
+        article1.setField(StandardField.AUTHOR, "Roger Pressman and Bruce Maxim Artigo");
+        article1.setField(StandardField.TITLE, "Artigo teste Engenharia de Software: Uma Abordagem Profissional");
+        article1.setField(StandardField.JOURNAL, "Diario da regiao");
+
+
+    }
+
+    @Test
+    public void articleInsert() {
+        db.insertEntry(article1);
+        Assert.assertTrue(db.hasEntries());
+        Assert.assertEquals(db.getEntryCount(), 1);
+        Assert.assertEquals(db.getEntries().get(0), article1);
+    }
     @Test
     public void bookInsert() {
         db.insertEntry(book1);
         Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), book1);
+        Assert.assertEquals(db.getEntryCount(), 2);
+        Assert.assertEquals(db.getEntries().get(1), book1);
     }
+
 }

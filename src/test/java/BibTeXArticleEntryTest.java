@@ -14,9 +14,10 @@ public class BibTeXArticleEntryTest {
     @Before
     public void setUp() throws Exception {
         article1 = new BibEntry(StandardEntryType.Article);
-        article1.setField(StandardField.AUTHOR, "Roger Pressman and Bruce Maxim Artigo");
-        article1.setField(StandardField.TITLE, "Artigo teste Engenharia de Software: Uma Abordagem Profissional");
-        article1.setField(StandardField.JOURNAL, "Diario da regiao");
+        article1.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
+        article1.setField(StandardField.TITLE, "Processes & Materials");
+        article1.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
+        article1.setField(StandardField.YEAR, "2019");
     }
 
     @Test

@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TemplateExporter extends Exporter {
 
-    private static final String LAYOUT_PREFIX = "/resource/layout/";
+    public static final String LAYOUT_PREFIX = "/resource/layout/";
 
     /**
      * A regular expression that matches blank lines
@@ -42,9 +42,9 @@ public class TemplateExporter extends Exporter {
      * \\s simply marks any whitespace character
      */
     private static final Pattern BLANK_LINE_MATCHER = Pattern.compile("(?m)^\\s");
-    private static final String LAYOUT_EXTENSION = ".layout";
+    public static final String LAYOUT_EXTENSION = ".layout";
     private static final String FORMATTERS_EXTENSION = ".formatters";
-    private static final String BEGIN_INFIX = ".begin";
+    public static final String BEGIN_INFIX = ".begin";
     private static final String END_INFIX = ".end";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateExporter.class);

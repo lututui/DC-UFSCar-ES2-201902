@@ -176,6 +176,8 @@ dependencies {
     checkstyle 'com.puppycrawl.tools:checkstyle:8.23'
     xjc 'com.sun.xml.bind:jaxb-xjc:2.2.4-1'
     jython 'org.python:jython-standalone:2.7.1'
+
+    compile "org.apache.commons:commons-csv:1.5"
 }
 
 jacoco {

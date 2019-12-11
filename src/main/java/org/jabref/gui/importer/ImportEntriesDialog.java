@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 
 import org.jabref.Globals;
 import org.jabref.gui.DialogService;
+import org.jabref.gui.JabRefFrame;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.icon.IconTheme;
 import org.jabref.gui.util.BackgroundTask;
@@ -58,7 +59,7 @@ public class ImportEntriesDialog extends BaseDialog<Void> {
     @Inject private FileUpdateMonitor fileUpdateMonitor;
     private BibDatabaseContext database;
 
-    public ImportEntriesDialog(BibDatabaseContext database, BackgroundTask<List<BibEntry>> task) {
+    public ImportEntriesDialog(BibDatabaseContext database, BackgroundTask<List<BibEntry>> task, JabRefFrame frame) {
         this.database = database;
         this.task = task;
 
@@ -72,7 +73,7 @@ public class ImportEntriesDialog extends BaseDialog<Void> {
 
         setResultConverter(button -> {
             if (button == importButton) {
-                viewModel.importEntries(entriesListView.getCheckModel().getCheckedItems());
+                viewModel.importEntries(entriesListView.getCheckModel().getCheckedItems(), frame);
             } else {
                 dialogService.notify(Localization.lang("Import canceled"));
             }

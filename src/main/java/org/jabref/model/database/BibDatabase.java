@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,7 +73,7 @@ public class BibDatabase {
 
     public BibDatabase(List<BibEntry> entries) {
         this();
-        insertEntries(entries);
+        insertEntriesSorted(entries);
     }
 
     /**
@@ -214,6 +215,29 @@ public class BibDatabase {
 
     public synchronized void insertEntries(List<BibEntry> entries) throws KeyCollisionException {
         insertEntries(entries, EntryEventSource.LOCAL);
+    }
+
+    public synchronized void insertEntriesSorted(List<BibEntry> entries) throws KeyCollisionException {
+        LinkedList<BibEntry> entriesSorted = new LinkedList<>(entries);
+        entriesSorted.sort((a, b) -> {
+            final String authorOrEditorA = a.getField(StandardField.AUTHOR).orElseGet(() -> a.getField(StandardField.EDITOR).orElse(""));
+            final String authorOrEditorB = b.getField(StandardField.AUTHOR).orElseGet(() -> b.getField(StandardField.EDITOR).orElse(""));
+            final String titleA = a.getTitle().orElse("");
+            final String titleB = b.getTitle().orElse("");
+
+            final int compareType = a.getType().getName().compareToIgnoreCase(b.getType().getName());
+            final int compareAuthorEditor = authorOrEditorA.compareToIgnoreCase(authorOrEditorB);
+            final int compareTitle = titleA.compareToIgnoreCase(titleB);
+
+            if (compareType != 0)
+                return compareType;
+
+            if (compareAuthorEditor != 0)
+                return compareAuthorEditor;
+
+            return compareTitle;
+        });
+        insertEntries(entriesSorted, EntryEventSource.LOCAL);
     }
 
     private synchronized void insertEntries(List<BibEntry> newEntries, EntryEventSource eventSource) throws KeyCollisionException {

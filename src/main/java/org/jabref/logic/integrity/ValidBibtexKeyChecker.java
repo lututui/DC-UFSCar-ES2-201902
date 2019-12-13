@@ -23,6 +23,15 @@ public class ValidBibtexKeyChecker implements ValueChecker {
             return Optional.of(Localization.lang("empty BibTeX key"));
         }
 
+        if (value.length()<2) {
+            return Optional.of(Localization.lang("BibTeX key to small"));
+        }
+
+
+        if (!Character.isLetter(value.charAt(0))) {
+            return Optional.of(Localization.lang("BibteX invalid (first char is not a letter)"));
+        }
+
         String cleaned = BibtexKeyGenerator.cleanKey(value, enforceLegalKey);
 
         if (cleaned.equals(value)) {

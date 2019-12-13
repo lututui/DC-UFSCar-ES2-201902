@@ -18,16 +18,6 @@ import org.junit.Test;
 
 public class BibTeXArticleEntryTest {
     private BibDatabase db = new BibDatabase();
-    private BibEntry article1;
-    private BibEntry article2;
-    private BibEntry article3;
-    private BibEntry article4;
-    private BibEntry article5;
-    private BibEntry article6;
-    private BibEntry article7;
-    private BibEntry article8;
-    private BibEntry article9;
-    private BibEntry article10;
     private BibEntryWriter bew;
 
     @Before
@@ -40,7 +30,7 @@ public class BibTeXArticleEntryTest {
         bew = new BibEntryWriter(new LatexFieldFormatter(JabRefPreferences.getInstance().getLatexFieldFormatterPreferences()), new BibEntryTypesManager());
 
         StringWriter sw = new StringWriter();
-        article1 = new BibEntry(StandardEntryType.Article);
+        BibEntry article1 = new BibEntry(StandardEntryType.Article);
         article1.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
         article1.setField(StandardField.TITLE, "Processes & Materials");
         article1.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
@@ -61,7 +51,7 @@ public class BibTeXArticleEntryTest {
 
     @Test
     public void _articleInsert() {
-        article1 = new BibEntry(StandardEntryType.Article);
+        BibEntry article1 = new BibEntry(StandardEntryType.Article);
         article1.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
         article1.setField(StandardField.TITLE, "Processes & Materials");
         article1.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
@@ -69,65 +59,77 @@ public class BibTeXArticleEntryTest {
 
         db.insertEntry(article1);
         Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article1);
+        Assert.assertEquals(1, db.getEntryCount());
+        Assert.assertEquals(article1, db.getEntries().get(0));
     }
 
     // testes de limites inferiores (nulo)
     @Test
     public void _articleInsert2() {
-        article2 = new BibEntry(StandardEntryType.Article);
-        article2.setField(StandardField.AUTHOR, null);
-        article2.setField(StandardField.TITLE, null);
-        article2.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
-        article2.setField(StandardField.YEAR, "2019");
+        try {
+            BibEntry article2 = new BibEntry(StandardEntryType.Article);
+            article2.setField(StandardField.AUTHOR, null);
+            article2.setField(StandardField.TITLE, null);
+            article2.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
+            article2.setField(StandardField.YEAR, "2019");
 
-        db.insertEntry(article2);
-        Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article2);
+            db.insertEntry(article2);
+            Assert.fail();
+        } catch (NullPointerException e) {
+            Assert.assertFalse(db.hasEntries());
+            Assert.assertEquals(0, db.getEntryCount());
+        }
     }
 
     @Test
     public void _articleInsert3() {
-        article3 = new BibEntry(StandardEntryType.Article);
-        article3.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
-        article3.setField(StandardField.TITLE, null);
-        article3.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
-        article3.setField(StandardField.YEAR, "2019");
+        try {
+            BibEntry article3 = new BibEntry(StandardEntryType.Article);
+            article3.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
+            article3.setField(StandardField.TITLE, null);
+            article3.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
+            article3.setField(StandardField.YEAR, "2019");
 
-        db.insertEntry(article3);
-        Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article3);
+            db.insertEntry(article3);
+            Assert.fail();
+        } catch (NullPointerException e) {
+            Assert.assertFalse(db.hasEntries());
+            Assert.assertEquals(0, db.getEntryCount());
+        }
     }
 
     @Test
     public void _articleInsert4() {
-        article4 = new BibEntry(StandardEntryType.Article);
-        article4.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
-        article4.setField(StandardField.TITLE, "Processes & Materials");
-        article4.setField(StandardField.JOURNAL, null);
-        article4.setField(StandardField.YEAR, "2019");
+        try {
+            BibEntry article4 = new BibEntry(StandardEntryType.Article);
+            article4.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
+            article4.setField(StandardField.TITLE, "Processes & Materials");
+            article4.setField(StandardField.JOURNAL, null);
+            article4.setField(StandardField.YEAR, "2019");
 
-        db.insertEntry(article4);
-        Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article4);
+            db.insertEntry(article4);
+            Assert.fail();
+        } catch (NullPointerException e) {
+            Assert.assertFalse(db.hasEntries());
+            Assert.assertEquals(0, db.getEntryCount());
+        }
     }
 
     @Test
     public void _articleInsert5() {
-        article5= new BibEntry(StandardEntryType.Article);
-        article5.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
-        article5.setField(StandardField.TITLE, "Processes & Materials");
-        article5.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
-        article5.setField(StandardField.YEAR, null);
+        try {
+            BibEntry article5 = new BibEntry(StandardEntryType.Article);
+            article5.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
+            article5.setField(StandardField.TITLE, "Processes & Materials");
+            article5.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
+            article5.setField(StandardField.YEAR, null);
 
-        db.insertEntry(article5);
-        Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article5);
+            db.insertEntry(article5);
+            Assert.fail();
+        } catch (NullPointerException e) {
+            Assert.assertFalse(db.hasEntries());
+            Assert.assertEquals(0, db.getEntryCount());
+        }
     }
 
     // testes limites inferiores (um caractere nos campos author, title, journal)
@@ -136,7 +138,7 @@ public class BibTeXArticleEntryTest {
         bew = new BibEntryWriter(new LatexFieldFormatter(JabRefPreferences.getInstance().getLatexFieldFormatterPreferences()), new BibEntryTypesManager());
 
         StringWriter sw = new StringWriter();
-        article6 = new BibEntry(StandardEntryType.Article);
+        BibEntry article6 = new BibEntry(StandardEntryType.Article);
         article6.setField(StandardField.AUTHOR, "M");
         article6.setField(StandardField.TITLE, "P");
         article6.setField(StandardField.JOURNAL, "J");
@@ -158,7 +160,7 @@ public class BibTeXArticleEntryTest {
     //testes para ano
     @Test
     public void _articleInsert7() {
-        article7= new BibEntry(StandardEntryType.Article);
+        BibEntry article7 = new BibEntry(StandardEntryType.Article);
         article7.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
         article7.setField(StandardField.TITLE, "Processes & Materials");
         article7.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
@@ -166,13 +168,13 @@ public class BibTeXArticleEntryTest {
 
         db.insertEntry(article7);
         Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article7);
+        Assert.assertEquals(1, db.getEntryCount());
+        Assert.assertEquals(article7, db.getEntries().get(0));
     }
 
     @Test
     public void _articleInsert8() {
-        article8= new BibEntry(StandardEntryType.Article);
+        BibEntry article8 = new BibEntry(StandardEntryType.Article);
         article8.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
         article8.setField(StandardField.TITLE, "Processes & Materials");
         article8.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
@@ -180,13 +182,13 @@ public class BibTeXArticleEntryTest {
 
         db.insertEntry(article8);
         Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article8);
+        Assert.assertEquals(1, db.getEntryCount());
+        Assert.assertEquals(article8, db.getEntries().get(0));
     }
 
     @Test
     public void _articleInsert10() {
-        article10= new BibEntry(StandardEntryType.Article);
+        BibEntry article10 = new BibEntry(StandardEntryType.Article);
         article10.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI)");
         article10.setField(StandardField.TITLE, "Processes & Materials");
         article10.setField(StandardField.JOURNAL, "Journal of Integrated Circuits and Systems (JICS)");
@@ -194,14 +196,14 @@ public class BibTeXArticleEntryTest {
 
         db.insertEntry(article10);
         Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article10);
+        Assert.assertEquals(1, db.getEntryCount());
+        Assert.assertEquals(article10, db.getEntries().get(0));
     }
 
     // teste para grandes insercoes
     @Test
     public void _articleInsert9() {
-        article9= new BibEntry(StandardEntryType.Article);
+        BibEntry article9 = new BibEntry(StandardEntryType.Article);
         article9.setField(StandardField.AUTHOR, "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI) " +
                 "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI) " +
                 "Marcelo Lubaszewski (UFRGS) and Marcelo Antonio Pavanello (FEI) " +
@@ -233,8 +235,8 @@ public class BibTeXArticleEntryTest {
 
         db.insertEntry(article9);
         Assert.assertTrue(db.hasEntries());
-        Assert.assertEquals(db.getEntryCount(), 1);
-        Assert.assertEquals(db.getEntries().get(0), article9);
+        Assert.assertEquals(1, db.getEntryCount());
+        Assert.assertEquals(article9, db.getEntries().get(0));
     }
 
 }

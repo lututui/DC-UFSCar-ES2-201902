@@ -83,7 +83,7 @@ public class ImportAction {
         } else {
             final BasePanel panel = frame.getCurrentBasePanel();
 
-            ImportEntriesDialog dialog = new ImportEntriesDialog(panel.getBibDatabaseContext(), task);
+            ImportEntriesDialog dialog = new ImportEntriesDialog(panel.getBibDatabaseContext(), task, frame);
             dialog.setTitle(Localization.lang("Import"));
             dialog.showAndWait();
         }

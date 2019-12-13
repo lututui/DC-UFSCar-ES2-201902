@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import org.jabref.Globals;
 import org.jabref.gui.AbstractViewModel;
 import org.jabref.gui.DialogService;
+import org.jabref.gui.JabRefFrame;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.duplicationFinder.DuplicateResolverDialog;
 import org.jabref.gui.externalfiles.ImportHandler;
@@ -25,6 +26,7 @@ import org.jabref.model.database.BibDatabaseContext;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.util.FileUpdateMonitor;
 import org.jabref.preferences.PreferencesService;
+import org.jabref.gui.exporter.ExportCommand;
 
 public class ImportEntriesViewModel extends AbstractViewModel {
 
@@ -72,7 +74,7 @@ public class ImportEntriesViewModel extends AbstractViewModel {
                 new DuplicateCheck(Globals.entryTypesManager).containsDuplicate(database.getDatabase(), entry, database.getMode()).isPresent();
     }
 
-    public void importEntries(List<BibEntry> entriesToImport) {
+    public void importEntries(List<BibEntry> entriesToImport, JabRefFrame frame) {
         // Check if we are supposed to warn about duplicates.
         // If so, then see if there are duplicates, and warn if yes.
         if (preferences.shouldWarnAboutDuplicatesForImport()) {
@@ -89,6 +91,7 @@ public class ImportEntriesViewModel extends AbstractViewModel {
                     if (!continueImport) {
                         dialogService.notify(Localization.lang("Import canceled"));
                     } else {
+                        buildImportHandlerThenImportEntries(entriesToImport);
                         boolean continuecreate = dialogService.showConfirmationDialogWithOptOutAndWait(Localization.lang("Duplicates found"),
                                 Localization.lang("To solve this problem you can choose create a new entry or import into current library"),
                                 Localization.lang("Create new file"),
@@ -98,7 +101,8 @@ public class ImportEntriesViewModel extends AbstractViewModel {
                         if(!continuecreate){
                             buildImportHandlerThenImportEntries(entriesToImport);
                         }else{
-                            /**create new option**/
+                            ExportDuplicate exportDuplicate = new ExportDuplicate(Globals.prefs, dialogService, entriesToImport, frame);
+                            exportDuplicate.execute();
                         }
 
                     }
@@ -111,6 +115,7 @@ public class ImportEntriesViewModel extends AbstractViewModel {
         }
 
     }
+
 
     private void buildImportHandlerThenImportEntries(List<BibEntry> entriesToImport) {
         ImportHandler importHandler = new ImportHandler(

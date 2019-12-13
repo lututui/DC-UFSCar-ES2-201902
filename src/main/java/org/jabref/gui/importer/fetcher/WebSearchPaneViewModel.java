@@ -99,7 +99,7 @@ public class WebSearchPaneViewModel {
 
         task.onFailure(ex -> dialogService.showErrorDialogAndWait(ex));
 
-        ImportEntriesDialog dialog = new ImportEntriesDialog(frame.getCurrentBasePanel().getBibDatabaseContext(), task);
+        ImportEntriesDialog dialog = new ImportEntriesDialog(frame.getCurrentBasePanel().getBibDatabaseContext(), task, frame);
         dialog.setTitle(activeFetcher.getName());
         dialog.showAndWait();
     }

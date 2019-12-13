@@ -1044,7 +1044,7 @@ public class JabRefFrame extends BorderPane {
      */
     private void addImportedEntries(final BasePanel panel, final List<BibEntry> entries) {
         BackgroundTask<List<BibEntry>> task = BackgroundTask.wrap(() -> entries);
-        ImportEntriesDialog dialog = new ImportEntriesDialog(panel.getBibDatabaseContext(), task);
+        ImportEntriesDialog dialog = new ImportEntriesDialog(panel.getBibDatabaseContext(), task, this);
         dialog.setTitle(Localization.lang("Import"));
         dialog.showAndWait();
     }

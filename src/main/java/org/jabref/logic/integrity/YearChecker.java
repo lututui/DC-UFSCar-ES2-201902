@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.jabref.logic.l10n.Localization;
 import org.jabref.model.strings.StringUtil;
 
@@ -24,7 +25,7 @@ public class YearChecker implements ValueChecker {
      */
     @Override
     public Optional<String> checkValue(String value) {
-        char [] C_value = value.toCharArray();
+
         Calendar cal = Calendar.getInstance();
         int ActualYear = cal.get(Calendar.YEAR);
 
@@ -39,11 +40,12 @@ public class YearChecker implements ValueChecker {
         if (!ENDS_WITH_FOUR_DIGIT.test(value.replaceAll(PUNCTUATION_MARKS, ""))) {
             return Optional.of(Localization.lang("last four nonpunctuation characters should be numerals"));
         }
-
-        if(!Character.isDigit(C_value[0])){
-            return Optional.of(Localization.lang("First character should be numeral"));
+        if(value.length() > 0) {
+            char [] C_value = value.toCharArray();
+            if (!Character.isDigit(C_value[0])) {
+                return Optional.of(Localization.lang("First character should be numeral"));
+            }
         }
-
         if(ActualYear < Integer.parseInt(value)) {
             return Optional.of(Localization.lang("Year should be smaller or equal then actual year"));
         }

@@ -89,7 +89,18 @@ public class ImportEntriesViewModel extends AbstractViewModel {
                     if (!continueImport) {
                         dialogService.notify(Localization.lang("Import canceled"));
                     } else {
-                        buildImportHandlerThenImportEntries(entriesToImport);
+                        boolean continuecreate = dialogService.showConfirmationDialogWithOptOutAndWait(Localization.lang("Duplicates found"),
+                                Localization.lang("To solve this problem you can choose create a new entry or import into current library"),
+                                Localization.lang("Create new file"),
+                                Localization.lang("Import into library"),
+                                Localization.lang("Disable this confirmation dialog"),
+                                optOut -> preferences.setShouldWarnAboutDuplicatesForImport(!optOut));
+                        if(!continuecreate){
+                            buildImportHandlerThenImportEntries(entriesToImport);
+                        }else{
+                            /**create new option**/
+                        }
+
                     }
                 } else {
                     buildImportHandlerThenImportEntries(entriesToImport);

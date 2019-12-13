@@ -1,5 +1,6 @@
 package org.jabref.logic.integrity;
 
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -23,6 +24,10 @@ public class YearChecker implements ValueChecker {
      */
     @Override
     public Optional<String> checkValue(String value) {
+
+        Calendar cal = Calendar.getInstance();
+        int ActualYear = cal.get(Calendar.YEAR);
+
         if (StringUtil.isBlank(value)) {
             return Optional.empty();
         }
@@ -33,6 +38,21 @@ public class YearChecker implements ValueChecker {
 
         if (!ENDS_WITH_FOUR_DIGIT.test(value.replaceAll(PUNCTUATION_MARKS, ""))) {
             return Optional.of(Localization.lang("last four nonpunctuation characters should be numerals"));
+        }
+
+        if (value.length() > 0) {
+            char[] C_value = value.toCharArray();
+            if (!Character.isDigit(C_value[0])) {
+                return Optional.of(Localization.lang("First character should be numeral"));
+            }
+        }
+
+        try {
+            if (ActualYear < Integer.parseInt(value)) {
+                return Optional.of(Localization.lang("Year should be smaller or equal then actual year"));
+            }
+        } catch (NumberFormatException e) {
+            return Optional.of(Localization.lang("Not a year"));
         }
 
         return Optional.empty();
